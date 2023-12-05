@@ -1,0 +1,61 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdbool.h>
+#include <limits.h>
+
+/* Definicion de la estructura del nodo
+Aqui se define la estructura basica de un nodo en el arbol binario. Cada nodo tiene un valor (data), 
+y punteros a los nodos hijos izquierdo y derecho
+*/
+struct Nodo {
+    int data;
+    struct Nodo* izquierdo;
+    struct Nodo* derecho;
+};
+
+/* Funcion para crear un nuevo nodo
+crea un nuevo nodo del arbol binario*/
+
+struct Nodo* nvoNodo(int data) {
+    struct Nodo* nodo = (struct Nodo*)malloc(sizeof(struct Nodo));
+    nodo->data = data;
+    nodo->izquierdo = NULL;
+    nodo->derecho = NULL;
+    return nodo;
+}
+
+/* Funcion para validar si el árbol es un arbol binario
+toma como parametro el nodo actual, junto con los valores minimos y maximos permitidos para ese nodo
+y verifica si el arbol es un arbol binario valido. el valor de un nodo debe 
+estar dentro del rango permitido (marcado por los valores min y max) y los valores de los nodos en el subarbol izquierdo deben ser 
+menores que el valor del nodo actual, mientras que los valores en el subarbol derecho deben ser mayores.*/ 
+
+bool Arbol(struct Nodo* nodo, int min, int max) {
+    if (nodo == NULL) 
+        return true;
+
+    if (nodo->data < min || nodo->data > max)
+        return false;
+
+    return (Arbol(nodo->izquierdo, min, nodo->data - 1) &&
+            Arbol(nodo->derecho, nodo->data + 1, max));
+}
+
+/* Ejemplo de árbol binario
+Aquí se crea un árbol binario de ejemplo y se llama a la función Arbol para verificar si 
+cumple con la definición de un árbol binario de búsqueda válido.*/
+int main() {
+    struct Nodo* root = nvoNodo(4);
+    root->izquierdo = nvoNodo(2);
+    root->derecho = nvoNodo(5);
+    root->izquierdo->izquierdo = nvoNodo(1);
+    root->izquierdo->derecho = nvoNodo(3);
+
+    if (Arbol(root, INT_MIN, INT_MAX)) {
+        printf("El árbol es un Árbol Binario Válido.\n");
+    } else {
+        printf("El árbol NO es un Árbol Binario Válido.\n");
+    }
+
+    return 0;
+}
