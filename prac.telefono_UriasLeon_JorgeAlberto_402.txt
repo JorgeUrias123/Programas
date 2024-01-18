@@ -1,0 +1,16 @@
+%{
+#include <stdio.h>
+%}
+
+%%
+
+(\+\([0-9]{2}\)\ ?)?(\(?[0-9]{3}\)?\ ?\-?)([0-9]{3}\ ?\-?)([0-9]{4})	{printf("Numero de telefono valido: %s\n", yytext);}
+.|\n	{ printf("No es un numero de telefono: %s", yytext); }
+
+%%
+
+int main() {
+    printf("Ingrese un numero de telefono: ");
+    yylex();
+    return 0;
+}

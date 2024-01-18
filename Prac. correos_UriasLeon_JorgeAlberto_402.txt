@@ -1,0 +1,16 @@
+%{
+#include <stdio.h>
+%}
+
+%%
+
+[a-zA-Z0-9\-\_\.]+@(hotmail\.com|gmail\.com|uas\.edu|xyz\.com)(\.[a-z]{2,3})?	{ printf("Direccion de correo electronico valida: %s\n", yytext); }
+.|\n	{ printf("No es una direccion de correo electronico valida: %s", yytext); }
+
+%%
+
+int main() {
+    printf("Ingrese una direccion de correo electronico: ");
+    yylex();
+    return 0;
+}
